@@ -1,5 +1,6 @@
 package com.example.friocaliente.ui.theme
 
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
 val Purple80 = Color(0xFFD0BCFF)
@@ -14,4 +15,14 @@ val Pink40 = Color(0xFF7D5260)
 //NUESTROS COLORES
 
 val ColorMadera = Color(0xFF6D4C29)
-val Naranja = Color(0xFFE8792E)
+val degradadoCaliente = Brush.verticalGradient(
+    colors = listOf(Color(0xFFF5A742), Color(0xFFE8792E))
+)
+
+val BlancoTarjeta = Color(0xFFFFFFFF)
+val TextoOscuro = Color(0xFF2B2B2B)
+val TextoApagado = Color(0xFF7A7A7A)
+val VerdeBosque = Color(0xFF2E7D32)
+val degradadoFrio = Brush.verticalGradient(
+    colors = listOf(Color(0xFF8FD9F5), Color(0xFF3FAEDD))
+)
