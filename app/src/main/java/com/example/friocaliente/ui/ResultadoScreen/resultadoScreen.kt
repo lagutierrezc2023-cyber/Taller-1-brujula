@@ -183,11 +183,6 @@ fun resultadoScreen(
                 Text("🏠  VOLVER AL MENÚ", fontWeight = FontWeight.Bold, fontSize = 16.sp)
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
-
-            TextButton(onClick = onCompartir) {
-                Text("📤  COMPARTIR PUNTUACIÓN", color = TextoApagado, fontSize = 14.sp)
-            }
         }
     }
 }
