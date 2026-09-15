@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -36,6 +37,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.friocaliente.R
+import com.example.friocaliente.Data.PreferenciasPuntajes
+import com.example.friocaliente.Data.formatearTiempoMmSs
 import com.example.friocaliente.ui.theme.BlancoTarjeta
 import com.example.friocaliente.ui.theme.TextoApagado
 import com.example.friocaliente.ui.theme.TextoOscuro
@@ -50,6 +53,13 @@ fun DashBoardScreen(
     onNuevaPartida: () -> Unit,
     onComoJugar: () -> Unit
 ) {
+
+    // Se leen aquí, en cada composición: como Navegacion recrea esta pantalla
+    // cada vez que el usuario vuelve al menú, siempre reflejan el valor más
+    // reciente guardado por ResultadoScreen al terminar una partida.
+    val context = LocalContext.current
+    val mejorTiempoMs = PreferenciasPuntajes.obtenerMejorTiempoMs(context)
+    val mejorPuntuacion = PreferenciasPuntajes.obtenerMejorPuntuacion(context)
 
     Box(
         modifier = modifier.fillMaxSize()
@@ -78,7 +88,10 @@ fun DashBoardScreen(
                 modifier = Modifier.offset(y = (-60).dp)
             )
 
-            CardBienvenida()
+            CardBienvenida(
+                mejorTiempoMs = mejorTiempoMs,
+                mejorPuntuacion = mejorPuntuacion
+            )
 
             Spacer(
                 modifier = Modifier.height(28.dp)
@@ -249,8 +262,12 @@ fun TextoEncuentralo3D(
         )
     }
 }
+
 @Composable
-fun CardBienvenida() {
+fun CardBienvenida(
+    mejorTiempoMs: Long = PreferenciasPuntajes.SIN_REGISTRO,
+    mejorPuntuacion: Int = 0
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -290,12 +307,16 @@ fun CardBienvenida() {
                 ItemEstadistica(
                     emoji = "⏱️",
                     etiqueta = "Mejor tiempo",
-                    valor = "01:45"
+                    valor = if (mejorTiempoMs == PreferenciasPuntajes.SIN_REGISTRO) {
+                        "--:--"
+                    } else {
+                        formatearTiempoMmSs(mejorTiempoMs)
+                    }
                 )
                 ItemEstadistica(
                     emoji = "🏆",
                     etiqueta = "Mejor puntuación",
-                    valor = "1200 pts"
+                    valor = "$mejorPuntuacion pts"
                 )
             }
         }

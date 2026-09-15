@@ -93,14 +93,16 @@ fun Navegacion() {
                 val resultado = ResultadoTemporal.ultimo
                 val gano = resultado?.fase == FaseJuego.GANADO
 
+                // Ya no arma "titulo", "esNuevoRecord" ni "mejorTiempoPersonal"
+                // a mano aquí: le pasamos los datos crudos de la partida y
+                // resultadoScreen se encarga de guardar el récord (si aplica),
+                // leer el mejor tiempo guardado y armar los textos.
                 resultadoScreen(
-                    titulo = if (gano) "¡LO ENCONTRASTE!" else "SE ACABÓ EL TIEMPO",
+                    fase = resultado?.fase ?: FaseJuego.PERDIDO,
+                    tiempoUtilizadoMs = resultado?.tiempoUtilizadoMs ?: 0L,
+                    puntuacionObtenida = resultado?.puntuacion ?: 0,
                     mascotaEmoji = if (gano) "🦫" else "😢",
-                    tiempoTotal = formatearTiempo(resultado?.tiempoUtilizadoMs ?: 0L),
-                    esNuevoRecord = false, // pendiente: falta guardar/comparar el mejor tiempo
-                    puntuacion = "${resultado?.puntuacion ?: 0} pts",
                     precision = formatearPrecision(resultado?.diferenciaAngularFinal),
-                    mejorTiempoPersonal = "01:45", // pendiente: falta persistencia (DataStore)
                     onJugarDeNuevo = {
                         navController.navigate("game") {
                             popUpTo("dashboard")
@@ -113,16 +115,6 @@ fun Navegacion() {
             }
         }
     }
-}
-
-/**
- * Convierte milisegundos a formato mm:ss para mostrar en la UI.
- */
-private fun formatearTiempo(ms: Long): String {
-    val segundosTotales = ms / 1000
-    val minutos = segundosTotales / 60
-    val segundos = segundosTotales % 60
-    return String.format("%02d:%02d", minutos, segundos)
 }
 
 /**
