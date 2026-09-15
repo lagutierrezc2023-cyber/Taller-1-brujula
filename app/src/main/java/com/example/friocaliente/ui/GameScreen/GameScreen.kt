@@ -33,6 +33,7 @@ import com.example.friocaliente.Data.NivelDificultad
 import com.example.friocaliente.Logica.ControladorJuego
 import com.example.friocaliente.Sensor.BrujulaSensor
 import kotlinx.coroutines.delay
+import com.example.friocaliente.Data.ResultadoTemporal
 
 
 @Composable
@@ -127,6 +128,7 @@ fun GameScreen(
         if (estado.fase != FaseJuego.JUGANDO) {
 
             delay(1000L)
+            ResultadoTemporal.ultimo = controlador.obtenerResultado()
 
             onFinalizarPartida()
         }

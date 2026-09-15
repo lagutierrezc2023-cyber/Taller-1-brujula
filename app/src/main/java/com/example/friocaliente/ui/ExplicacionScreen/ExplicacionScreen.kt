@@ -1,4 +1,4 @@
-package com.example.friocaliente.ui.ComoJugarScreen
+package com.example.friocaliente.ui.ExplicacionScreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

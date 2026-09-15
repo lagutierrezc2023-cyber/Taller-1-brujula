@@ -5,12 +5,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigacion.compose.NavHost
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.friocaliente.ui.ComoJugarScreen.ExplicacionScreen
+import com.example.friocaliente.Data.FaseJuego
+import com.example.friocaliente.Data.ResultadoTemporal
+import com.example.friocaliente.ui.ExplicacionScreen.ExplicacionScreen
 import com.example.friocaliente.ui.DashboardScreen.DashBoardScreen
 import com.example.friocaliente.ui.GameScreen.GameScreen
+import com.example.friocaliente.ui.ResultadoScreen.resultadoScreen
+import kotlin.math.max
 
 
 @Composable
@@ -86,11 +90,50 @@ fun Navegacion() {
 
             composable("resultado") {
 
-                // Temporalmente queda aquí.
-                // Cuando tengamos resultadoScreen.kt
-                // conectaremos esta pantalla.
+                val resultado = ResultadoTemporal.ultimo
+                val gano = resultado?.fase == FaseJuego.GANADO
 
+                resultadoScreen(
+                    titulo = if (gano) "¡LO ENCONTRASTE!" else "SE ACABÓ EL TIEMPO",
+                    mascotaEmoji = if (gano) "🦫" else "😢",
+                    tiempoTotal = formatearTiempo(resultado?.tiempoUtilizadoMs ?: 0L),
+                    esNuevoRecord = false, // pendiente: falta guardar/comparar el mejor tiempo
+                    puntuacion = "${resultado?.puntuacion ?: 0} pts",
+                    precision = formatearPrecision(resultado?.diferenciaAngularFinal),
+                    mejorTiempoPersonal = "01:45", // pendiente: falta persistencia (DataStore)
+                    onJugarDeNuevo = {
+                        navController.navigate("game") {
+                            popUpTo("dashboard")
+                        }
+                    },
+                    onVolverAlMenu = {
+                        navController.popBackStack("dashboard", inclusive = false)
+                    }
+                )
             }
         }
     }
+}
+
+/**
+ * Convierte milisegundos a formato mm:ss para mostrar en la UI.
+ */
+private fun formatearTiempo(ms: Long): String {
+    val segundosTotales = ms / 1000
+    val minutos = segundosTotales / 60
+    val segundos = segundosTotales % 60
+    return String.format("%02d:%02d", minutos, segundos)
+}
+
+/**
+ * Convierte la diferencia angular final (en grados, 0-180) a un porcentaje
+ * de "precisión" aproximado para mostrar en la UI. Es una fórmula simple
+ * (no la oficial de puntuación, esa vive en LogicaJuego.calcularPuntuacion):
+ * 0° de diferencia = 100% de precisión, 50°+ de diferencia = 0%.
+ * Se puede ajustar el "50" si el equipo quiere una escala distinta.
+ */
+private fun formatearPrecision(diferenciaGrados: Float?): String {
+    if (diferenciaGrados == null) return "0 %"
+    val porcentaje = max(0f, 100f - (diferenciaGrados / 50f) * 100f).toInt()
+    return "$porcentaje %"
 }
