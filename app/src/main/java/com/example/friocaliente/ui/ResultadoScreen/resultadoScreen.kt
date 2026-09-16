@@ -55,10 +55,6 @@ import com.example.friocaliente.ui.theme.TextoApagado
 import com.example.friocaliente.ui.theme.TextoOscuro
 import com.example.friocaliente.ui.theme.VerdeBosque
 
-<<<<<<< HEAD
-=======
-
->>>>>>> b33a70482cfb290329aba36b6a025e39a1ba3a79
 @Composable
 fun resultadoScreen(
     fase: FaseJuego = FaseJuego.GANADO,
