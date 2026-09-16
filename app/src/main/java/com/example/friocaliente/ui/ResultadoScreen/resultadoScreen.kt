@@ -55,15 +55,7 @@ import com.example.friocaliente.ui.theme.TextoApagado
 import com.example.friocaliente.ui.theme.TextoOscuro
 import com.example.friocaliente.ui.theme.VerdeBosque
 
-/**
- * Pantalla de resultado. Recibe el resultado REAL de la partida
- * (tiempoUtilizadoMs y puntuacionObtenida, que salen de
- * ControladorJuego.obtenerResultado()) en vez de valores de ejemplo.
- *
- * Al componerse, guarda el resultado en PreferenciasPuntajes (si es mejor
- * que el guardado) y lee el mejor tiempo actualizado para mostrarlo. Así el
- * Dashboard, la próxima vez que se abra, ya ve el valor correcto.
- */
+
 @Composable
 fun resultadoScreen(
     fase: FaseJuego = FaseJuego.GANADO,
@@ -187,11 +179,6 @@ fun resultadoScreen(
     }
 }
 
-/**
- * Título con contorno + sombra (mismo tratamiento visual que usa el
- * Dashboard para "Caliente/Frío"), en vez del Text plano de antes que
- * se veía apagado sobre el fondo del bosque.
- */
 @Composable
 private fun TituloResultado(texto: String) {
     Box(contentAlignment = Alignment.Center) {
