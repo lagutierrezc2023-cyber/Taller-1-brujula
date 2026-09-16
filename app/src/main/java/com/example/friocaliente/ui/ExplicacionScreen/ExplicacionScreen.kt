@@ -156,11 +156,6 @@ fun ExplicacionScreen(
                 modifier = Modifier.height(14.dp)
             )
 
-
-            // =================================================
-            // REINICIO
-            // =================================================
-
             TarjetaInstruccion(
                 emoji = "🔄",
                 titulo = "5. PUEDES REINICIAR",
@@ -173,11 +168,6 @@ fun ExplicacionScreen(
             Spacer(
                 modifier = Modifier.height(20.dp)
             )
-
-
-            // =================================================
-            // RESUMEN
-            // =================================================
 
             Card(
                 modifier = Modifier.fillMaxWidth(),

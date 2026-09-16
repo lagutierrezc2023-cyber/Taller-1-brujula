@@ -44,38 +44,19 @@ fun GameScreen(
 
     val context = LocalContext.current
 
-    // =====================================================
-    // CONTROLADOR DEL JUEGO
-    // =====================================================
-
     val controlador = remember {
         ControladorJuego(NivelDificultad.MEDIO)
     }
 
-
-    // =====================================================
-    // SENSOR
-    // =====================================================
-
     val brujula = remember {
         BrujulaSensor(context)
     }
-
-
-    // =====================================================
-    // ESTADO DEL JUEGO
-    // =====================================================
 
     var estado by remember {
         mutableStateOf(
             controlador.iniciarPartida()
         )
     }
-
-
-    // =====================================================
-    // INICIAR Y DETENER SENSOR
-    // =====================================================
 
     DisposableEffect(Unit) {
 
@@ -86,11 +67,6 @@ fun GameScreen(
         }
     }
 
-
-    // =====================================================
-    // LEER ORIENTACIÓN DEL SENSOR
-    // =====================================================
-
     LaunchedEffect(Unit) {
 
         brujula.orientacionGrados.collect { grados ->
@@ -99,10 +75,6 @@ fun GameScreen(
         }
     }
 
-
-    // =====================================================
-    // TEMPORIZADOR
-    // =====================================================
 
     LaunchedEffect(Unit) {
 
@@ -118,11 +90,6 @@ fun GameScreen(
         }
     }
 
-
-    // =====================================================
-    // CUANDO TERMINA LA PARTIDA
-    // =====================================================
-
     LaunchedEffect(estado.fase) {
 
         if (estado.fase != FaseJuego.JUGANDO) {
@@ -134,11 +101,6 @@ fun GameScreen(
         }
     }
 
-
-    // =====================================================
-    // INTERFAZ
-    // =====================================================
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -149,11 +111,6 @@ fun GameScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-
-        // =================================================
-        // TÍTULO
-        // =================================================
-
         Text(
             text = "🔥 ENCUÉNTRALO 🔥",
             fontSize = 32.sp,
@@ -162,29 +119,17 @@ fun GameScreen(
             textAlign = TextAlign.Center
         )
 
-
         Spacer(
             modifier = Modifier.height(16.dp)
         )
-
-
-        // =================================================
-        // TEMPORIZADOR
-        // =================================================
 
         Temporizador(
             tiempoRestanteMs = estado.tiempoRestanteMs
         )
 
-
         Spacer(
             modifier = Modifier.height(16.dp)
         )
-
-
-        // =================================================
-        // DIRECCIÓN ACTUAL
-        // =================================================
 
         DireccionCard(
             direccionActual = estado.direccionActual
@@ -196,10 +141,6 @@ fun GameScreen(
         )
 
 
-        // =================================================
-        // ESTADO FRÍO / TIBIO / CALIENTE
-        // =================================================
-
         TemperaturaCard(
             estadoTemperatura = estado.estadoTemperatura
         )
@@ -208,11 +149,6 @@ fun GameScreen(
         Spacer(
             modifier = Modifier.height(16.dp)
         )
-
-
-        // =================================================
-        // DIFERENCIA ANGULAR
-        // =================================================
 
         Card(
             modifier = Modifier.fillMaxWidth(),
@@ -252,11 +188,6 @@ fun GameScreen(
             modifier = Modifier.height(20.dp)
         )
 
-
-        // =================================================
-        // INSTRUCCIÓN
-        // =================================================
-
         Text(
             text = "📱 Gira y mueve tu teléfono para buscar al personaje",
             fontSize = 16.sp,
@@ -269,11 +200,6 @@ fun GameScreen(
         Spacer(
             modifier = Modifier.weight(1f)
         )
-
-
-        // =================================================
-        // BOTÓN REINICIAR
-        // =================================================
 
         Button(
             onClick = {
@@ -302,11 +228,6 @@ fun GameScreen(
             modifier = Modifier.height(12.dp)
         )
 
-
-        // =================================================
-        // BOTÓN VOLVER
-        // =================================================
-
         Button(
             onClick = onVolver,
             modifier = Modifier
@@ -326,11 +247,6 @@ fun GameScreen(
         }
     }
 }
-
-
-// =========================================================
-// TEMPORIZADOR
-// =========================================================
 
 @Composable
 fun Temporizador(
@@ -388,11 +304,6 @@ fun Temporizador(
     }
 }
 
-
-// =========================================================
-// DIRECCIÓN
-// =========================================================
-
 @Composable
 fun DireccionCard(
     direccionActual: Float
@@ -431,11 +342,6 @@ fun DireccionCard(
         }
     }
 }
-
-
-// =========================================================
-// TEMPERATURA
-// =========================================================
 
 @Composable
 fun TemperaturaCard(
