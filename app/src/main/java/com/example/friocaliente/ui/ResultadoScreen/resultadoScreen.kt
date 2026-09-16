@@ -70,8 +70,7 @@ fun resultadoScreen(
     var esNuevoRecordTiempo by remember { mutableStateOf(false) }
     var mejorTiempoMs by remember { mutableStateOf(PreferenciasPuntajes.SIN_REGISTRO) }
 
-    // Se guarda UNA sola vez por resultado (tiempoUtilizadoMs/puntuacionObtenida
-    // como keys) para no volver a comparar en cada recomposición.
+    
     LaunchedEffect(tiempoUtilizadoMs, puntuacionObtenida) {
         if (fase == FaseJuego.GANADO) {
             esNuevoRecordTiempo = PreferenciasPuntajes.guardarSiEsMejor(
@@ -247,8 +246,7 @@ private fun BadgeNuevoRecord() {
 
 @Composable
 private fun LineaDivisoria() {
-    // Antes esto era un Spacer sin color: ocupaba 1dp de alto pero era
-    // invisible. Con background() ahora sí se ve la línea separadora.
+
     Spacer(
         modifier = Modifier
             .fillMaxWidth()
