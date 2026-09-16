@@ -32,10 +32,6 @@ fun Navegacion() {
             modifier = Modifier.padding(innerPadding)
         ) {
 
-            // ==========================================
-            // DASHBOARD
-            // ==========================================
-
             composable("dashboard") {
 
                 DashBoardScreen(
@@ -50,11 +46,6 @@ fun Navegacion() {
                 )
             }
 
-
-            // ==========================================
-            // EXPLICACIÓN
-            // ==========================================
-
             composable("explicacion") {
 
                 ExplicacionScreen(
@@ -63,11 +54,6 @@ fun Navegacion() {
                     }
                 )
             }
-
-
-            // ==========================================
-            // JUEGO
-            // ==========================================
 
             composable("game") {
 
@@ -84,19 +70,11 @@ fun Navegacion() {
             }
 
 
-            // ==========================================
-            // RESULTADO
-            // ==========================================
-
             composable("resultado") {
 
                 val resultado = ResultadoTemporal.ultimo
                 val gano = resultado?.fase == FaseJuego.GANADO
 
-                // Ya no arma "titulo", "esNuevoRecord" ni "mejorTiempoPersonal"
-                // a mano aquí: le pasamos los datos crudos de la partida y
-                // resultadoScreen se encarga de guardar el récord (si aplica),
-                // leer el mejor tiempo guardado y armar los textos.
                 resultadoScreen(
                     fase = resultado?.fase ?: FaseJuego.PERDIDO,
                     tiempoUtilizadoMs = resultado?.tiempoUtilizadoMs ?: 0L,
@@ -117,13 +95,7 @@ fun Navegacion() {
     }
 }
 
-/**
- * Convierte la diferencia angular final (en grados, 0-180) a un porcentaje
- * de "precisión" aproximado para mostrar en la UI. Es una fórmula simple
- * (no la oficial de puntuación, esa vive en LogicaJuego.calcularPuntuacion):
- * 0° de diferencia = 100% de precisión, 50°+ de diferencia = 0%.
- * Se puede ajustar el "50" si el equipo quiere una escala distinta.
- */
+
 private fun formatearPrecision(diferenciaGrados: Float?): String {
     if (diferenciaGrados == null) return "0 %"
     val porcentaje = max(0f, 100f - (diferenciaGrados / 50f) * 100f).toInt()

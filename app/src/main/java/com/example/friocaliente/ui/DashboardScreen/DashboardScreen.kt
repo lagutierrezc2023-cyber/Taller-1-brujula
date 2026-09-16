@@ -54,9 +54,6 @@ fun DashBoardScreen(
     onComoJugar: () -> Unit
 ) {
 
-    // Se leen aquí, en cada composición: como Navegacion recrea esta pantalla
-    // cada vez que el usuario vuelve al menú, siempre reflejan el valor más
-    // reciente guardado por ResultadoScreen al terminar una partida.
     val context = LocalContext.current
     val mejorTiempoMs = PreferenciasPuntajes.obtenerMejorTiempoMs(context)
     val mejorPuntuacion = PreferenciasPuntajes.obtenerMejorPuntuacion(context)
